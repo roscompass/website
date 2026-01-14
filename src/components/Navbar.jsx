@@ -47,7 +47,7 @@ function Navbar({ activeSection }) {
           whileHover={{ scale: 1.05 }}
         >
           <img
-            src="/images/main_logo.png"
+            src="/main_logo.png"
             alt="ROS Compass Logo"
             className="w-10 h-10 rounded-lg object-cover"
           />
@@ -63,8 +63,8 @@ function Navbar({ activeSection }) {
               key={item.id}
               onClick={() => scrollToSection(item.id)}
               className={`relative text-sm font-medium transition-colors ${activeSection === item.id
-                  ? 'text-cyber-blue'
-                  : 'text-soft-gray hover:text-white'
+                ? 'text-cyber-blue'
+                : 'text-soft-gray hover:text-white'
                 }`}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -120,8 +120,8 @@ function Navbar({ activeSection }) {
                   key={item.id}
                   onClick={() => scrollToSection(item.id)}
                   className={`text-left py-2 text-lg font-medium transition-colors ${activeSection === item.id
-                      ? 'text-cyber-blue'
-                      : 'text-soft-gray'
+                    ? 'text-cyber-blue'
+                    : 'text-soft-gray'
                     }`}
                   whileTap={{ scale: 0.95 }}
                 >

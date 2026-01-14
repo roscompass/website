@@ -40,7 +40,7 @@ function Footer() {
               whileHover={{ scale: 1.02 }}
             >
               <img
-                src="/images/main_logo.png"
+                src="/main_logo.png"
                 alt="ROS Compass Logo"
                 className="w-10 h-10 rounded-lg object-cover"
               />

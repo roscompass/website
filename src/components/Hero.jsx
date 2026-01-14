@@ -180,7 +180,7 @@ function Hero() {
                 transition={{ duration: 3, repeat: Infinity }}
               >
                 <img
-                  src="/images/main_logo.png"
+                  src="/main_logo.png"
                   alt="ROS Compass Logo"
                   className="w-full h-full object-cover rounded-full"
                 />
@@ -195,7 +195,7 @@ function Hero() {
               transition={{ duration: 3, repeat: Infinity }}
             >
               <div className="px-3 py-2 rounded-xl glass-card border border-cyber-blue/30 flex items-center gap-2">
-                <img src="/images/ros2_logo.png" alt="ROS 2" className="w-8 h-8 object-contain" />
+                <img src="/ros2_logo.png" alt="ROS 2" className="w-8 h-8 object-contain" />
                 <span className="text-cyber-blue font-mono text-sm font-semibold">ROS 2</span>
               </div>
             </motion.div>
@@ -207,7 +207,7 @@ function Hero() {
               transition={{ duration: 3.5, repeat: Infinity, delay: 0.5 }}
             >
               <div className="px-3 py-2 rounded-xl glass-card border border-robotic-teal/30 flex items-center gap-2">
-                <img src="/images/gazebo_logo.png" alt="Gazebo" className="w-8 h-8 object-contain" />
+                <img src="/gazebo_logo.png" alt="Gazebo" className="w-8 h-8 object-contain" />
                 <span className="text-robotic-teal font-mono text-sm font-semibold">Gazebo</span>
               </div>
             </motion.div>
@@ -219,7 +219,7 @@ function Hero() {
               transition={{ duration: 3.2, repeat: Infinity, delay: 1 }}
             >
               <div className="px-3 py-2 rounded-xl glass-card border border-cyber-blue/30 flex items-center gap-2">
-                <img src="/images/webots_logo.png" alt="Webots" className="w-8 h-8 object-contain" />
+                <img src="/webots_logo.png" alt="Webots" className="w-8 h-8 object-contain" />
                 <span className="text-cyber-blue font-mono text-sm font-semibold">Webots</span>
               </div>
             </motion.div>
@@ -231,7 +231,7 @@ function Hero() {
               transition={{ duration: 3.4, repeat: Infinity, delay: 1.5 }}
             >
               <div className="px-3 py-2 rounded-xl glass-card border border-robotic-teal/30 flex items-center gap-2">
-                <img src="/images/nav2_logo.png" alt="Nav2" className="w-8 h-8 object-contain" />
+                <img src="/nav2_logo.png" alt="Nav2" className="w-8 h-8 object-contain" />
                 <span className="text-robotic-teal font-mono text-sm font-semibold">Nav2</span>
               </div>
             </motion.div>
@@ -243,7 +243,7 @@ function Hero() {
               transition={{ duration: 3.6, repeat: Infinity, delay: 2 }}
             >
               <div className="px-3 py-2 rounded-xl glass-card border border-cyber-blue/30 flex items-center gap-2">
-                <img src="/images/moveit2_logo.png" alt="MoveIt2" className="w-8 h-8 object-contain" />
+                <img src="/moveit2_logo.png" alt="MoveIt2" className="w-8 h-8 object-contain" />
                 <span className="text-cyber-blue font-mono text-sm font-semibold">MoveIt2</span>
               </div>
             </motion.div>

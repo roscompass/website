@@ -36,7 +36,7 @@ function Hero() {
     >
       {/* Background Grid */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(0,212,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,212,255,0.03)_1px,transparent_1px)] bg-[size:60px_60px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_110%)]" />
-      
+
       {/* Gradient Orbs */}
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyber-blue/10 rounded-full blur-[100px] pointer-events-none" />
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-robotic-teal/10 rounded-full blur-[100px] pointer-events-none" />
@@ -53,7 +53,7 @@ function Hero() {
           <motion.div variants={itemVariants} className="flex">
             <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card text-sm text-cyber-blue font-medium">
               <Terminal size={16} />
-              ROS 2 Humble • Gazebo • Isaac Sim
+              ROS 2 Humble • Gazebo • Webots
             </span>
           </motion.div>
 
@@ -124,76 +124,135 @@ function Hero() {
           </motion.div>
         </motion.div>
 
-        {/* Right Visual */}
+        {/* Right Visual - Compass */}
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.5 }}
           className="hidden lg:flex items-center justify-center"
         >
-          <div className="relative w-96 h-96">
-            {/* Outer Ring */}
-            <motion.div
-              className="absolute inset-0 rounded-full border border-cyber-blue/20"
-              animate={{ rotate: 360 }}
-              transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
-            />
-            
+          <div className="relative w-[420px] h-[420px]">
+            {/* Outer Compass Ring */}
+            <div className="absolute inset-0 rounded-full border-2 border-cyber-blue/30" />
+
+            {/* Compass Tick Marks */}
+            {[...Array(72)].map((_, i) => (
+              <div
+                key={i}
+                className="absolute top-0 left-1/2 h-full w-px origin-bottom"
+                style={{ transform: `translateX(-50%) rotate(${i * 5}deg)` }}
+              >
+                <div className={`w-px ${i % 6 === 0 ? 'h-3 bg-cyber-blue/60' : 'h-1.5 bg-cyber-blue/30'}`} />
+              </div>
+            ))}
+
             {/* Middle Ring */}
-            <motion.div
-              className="absolute inset-8 rounded-full border border-robotic-teal/30"
-              animate={{ rotate: -360 }}
-              transition={{ duration: 25, repeat: Infinity, ease: 'linear' }}
-            />
-            
+            <div className="absolute inset-12 rounded-full border border-robotic-teal/20" />
+
             {/* Inner Ring */}
+            <div className="absolute inset-24 rounded-full border border-cyber-blue/20" />
+
+            {/* Rotating Compass Needle */}
             <motion.div
-              className="absolute inset-16 rounded-full border border-cyber-blue/40"
+              className="absolute inset-0 flex items-center justify-center"
               animate={{ rotate: 360 }}
               transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-            />
+            >
+              <div className="relative w-full h-full">
+                {/* Needle pointing up */}
+                <div className="absolute top-8 left-1/2 -translate-x-1/2 w-0.5 h-24 bg-gradient-to-b from-cyber-blue to-transparent" />
+                {/* Needle pointing down */}
+                <div className="absolute bottom-8 left-1/2 -translate-x-1/2 w-0.5 h-24 bg-gradient-to-t from-robotic-teal to-transparent" />
+              </div>
+            </motion.div>
 
-            {/* Center Element */}
+            {/* Center Logo */}
             <div className="absolute inset-0 flex items-center justify-center">
               <motion.div
-                className="w-32 h-32 rounded-2xl bg-gradient-to-br from-cyber-blue/20 to-robotic-teal/20 glass-card flex items-center justify-center"
-                animate={{ 
+                className="w-36 h-36 rounded-full bg-gradient-to-br from-cyber-blue/10 to-robotic-teal/10 glass-card flex items-center justify-center overflow-hidden p-2"
+                animate={{
                   boxShadow: [
-                    '0 0 30px rgba(0, 212, 255, 0.2)',
-                    '0 0 60px rgba(20, 241, 149, 0.3)',
-                    '0 0 30px rgba(0, 212, 255, 0.2)'
+                    '0 0 30px rgba(0, 212, 255, 0.3)',
+                    '0 0 50px rgba(20, 241, 149, 0.4)',
+                    '0 0 30px rgba(0, 212, 255, 0.3)'
                   ]
                 }}
                 transition={{ duration: 3, repeat: Infinity }}
               >
-                <Bot size={64} className="text-cyber-blue" />
+                <img
+                  src="/images/main_logo.png"
+                  alt="ROS Compass Logo"
+                  className="w-full h-full object-cover rounded-full"
+                />
               </motion.div>
             </div>
 
-            {/* Floating Nodes */}
+            {/* Technology Logos around circumference */}
+            {/* ROS 2 - Top */}
             <motion.div
-              className="absolute top-4 left-1/2 -translate-x-1/2 w-12 h-12 rounded-xl glass-card flex items-center justify-center"
-              animate={{ y: [0, -10, 0] }}
+              className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2"
+              animate={{ y: [0, -5, 0] }}
               transition={{ duration: 3, repeat: Infinity }}
             >
-              <Cpu size={24} className="text-robotic-teal" />
+              <div className="px-3 py-2 rounded-xl glass-card border border-cyber-blue/30 flex items-center gap-2">
+                <img src="/images/ros2_logo.png" alt="ROS 2" className="w-8 h-8 object-contain" />
+                <span className="text-cyber-blue font-mono text-sm font-semibold">ROS 2</span>
+              </div>
             </motion.div>
 
+            {/* Gazebo - Top Right */}
             <motion.div
-              className="absolute bottom-8 left-8 w-10 h-10 rounded-lg glass-card flex items-center justify-center"
-              animate={{ y: [0, 10, 0] }}
-              transition={{ duration: 2.5, repeat: Infinity, delay: 0.5 }}
+              className="absolute top-[15%] right-[5%]"
+              animate={{ x: [0, 5, 0] }}
+              transition={{ duration: 3.5, repeat: Infinity, delay: 0.5 }}
             >
-              <Terminal size={20} className="text-cyber-blue" />
+              <div className="px-3 py-2 rounded-xl glass-card border border-robotic-teal/30 flex items-center gap-2">
+                <img src="/images/gazebo_logo.png" alt="Gazebo" className="w-8 h-8 object-contain" />
+                <span className="text-robotic-teal font-mono text-sm font-semibold">Gazebo</span>
+              </div>
             </motion.div>
 
+            {/* Webots - Bottom Right */}
             <motion.div
-              className="absolute bottom-8 right-8 w-10 h-10 rounded-lg glass-card flex items-center justify-center"
-              animate={{ y: [0, 10, 0] }}
-              transition={{ duration: 2.5, repeat: Infinity, delay: 1 }}
+              className="absolute bottom-[15%] right-[5%]"
+              animate={{ x: [0, 5, 0] }}
+              transition={{ duration: 3.2, repeat: Infinity, delay: 1 }}
             >
-              <span className="text-robotic-teal font-mono text-xs">ROS</span>
+              <div className="px-3 py-2 rounded-xl glass-card border border-cyber-blue/30 flex items-center gap-2">
+                <img src="/images/webots_logo.png" alt="Webots" className="w-8 h-8 object-contain" />
+                <span className="text-cyber-blue font-mono text-sm font-semibold">Webots</span>
+              </div>
             </motion.div>
+
+            {/* Nav2 - Bottom Left */}
+            <motion.div
+              className="absolute bottom-[15%] left-[5%]"
+              animate={{ x: [0, -5, 0] }}
+              transition={{ duration: 3.4, repeat: Infinity, delay: 1.5 }}
+            >
+              <div className="px-3 py-2 rounded-xl glass-card border border-robotic-teal/30 flex items-center gap-2">
+                <img src="/images/nav2_logo.png" alt="Nav2" className="w-8 h-8 object-contain" />
+                <span className="text-robotic-teal font-mono text-sm font-semibold">Nav2</span>
+              </div>
+            </motion.div>
+
+            {/* MoveIt2 - Top Left */}
+            <motion.div
+              className="absolute top-[15%] left-[5%]"
+              animate={{ x: [0, -5, 0] }}
+              transition={{ duration: 3.6, repeat: Infinity, delay: 2 }}
+            >
+              <div className="px-3 py-2 rounded-xl glass-card border border-cyber-blue/30 flex items-center gap-2">
+                <img src="/images/moveit2_logo.png" alt="MoveIt2" className="w-8 h-8 object-contain" />
+                <span className="text-cyber-blue font-mono text-sm font-semibold">MoveIt2</span>
+              </div>
+            </motion.div>
+
+            {/* Compass Direction Indicators */}
+            <div className="absolute top-6 left-1/2 -translate-x-1/2 text-cyber-blue/50 font-mono text-xs">N</div>
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-cyber-blue/50 font-mono text-xs">S</div>
+            <div className="absolute left-6 top-1/2 -translate-y-1/2 text-cyber-blue/50 font-mono text-xs">W</div>
+            <div className="absolute right-6 top-1/2 -translate-y-1/2 text-cyber-blue/50 font-mono text-xs">E</div>
           </div>
         </motion.div>
       </div>

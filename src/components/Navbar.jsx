@@ -35,9 +35,8 @@ function Navbar({ activeSection }) {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.5 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'glass py-4' : 'bg-transparent py-6'
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'glass py-4' : 'bg-transparent py-6'
+        }`}
     >
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         {/* Logo */}
@@ -47,9 +46,11 @@ function Navbar({ activeSection }) {
           className="flex items-center gap-2 text-xl font-bold"
           whileHover={{ scale: 1.05 }}
         >
-          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-cyber-blue to-robotic-teal flex items-center justify-center">
-            <span className="text-obsidian font-bold text-lg">R</span>
-          </div>
+          <img
+            src="/images/main_logo.png"
+            alt="ROS Compass Logo"
+            className="w-10 h-10 rounded-lg object-cover"
+          />
           <span className="hidden sm:block">
             ROS <span className="gradient-text">Compass</span>
           </span>
@@ -61,11 +62,10 @@ function Navbar({ activeSection }) {
             <motion.button
               key={item.id}
               onClick={() => scrollToSection(item.id)}
-              className={`relative text-sm font-medium transition-colors ${
-                activeSection === item.id
+              className={`relative text-sm font-medium transition-colors ${activeSection === item.id
                   ? 'text-cyber-blue'
                   : 'text-soft-gray hover:text-white'
-              }`}
+                }`}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -119,11 +119,10 @@ function Navbar({ activeSection }) {
                 <motion.button
                   key={item.id}
                   onClick={() => scrollToSection(item.id)}
-                  className={`text-left py-2 text-lg font-medium transition-colors ${
-                    activeSection === item.id
+                  className={`text-left py-2 text-lg font-medium transition-colors ${activeSection === item.id
                       ? 'text-cyber-blue'
                       : 'text-soft-gray'
-                  }`}
+                    }`}
                   whileTap={{ scale: 0.95 }}
                 >
                   {item.label}

@@ -28,7 +28,7 @@ function Footer() {
     <footer className="relative border-t border-white/10">
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-t from-obsidian to-transparent pointer-events-none" />
-      
+
       <div className="max-w-7xl mx-auto px-6 py-16 relative z-10">
         <div className="grid md:grid-cols-3 gap-12 mb-12">
           {/* Brand */}
@@ -39,9 +39,11 @@ function Footer() {
               className="flex items-center gap-2 text-xl font-bold mb-4"
               whileHover={{ scale: 1.02 }}
             >
-              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-cyber-blue to-robotic-teal flex items-center justify-center">
-                <span className="text-obsidian font-bold text-lg">R</span>
-              </div>
+              <img
+                src="/images/main_logo.png"
+                alt="ROS Compass Logo"
+                className="w-10 h-10 rounded-lg object-cover"
+              />
               <span>
                 ROS <span className="gradient-text">Compass</span>
               </span>

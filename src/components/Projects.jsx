@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { motion } from 'framer-motion'
-import ProjectAccordion from './ProjectAccordion'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Layers, Github, ExternalLink } from 'lucide-react'
 
 const projects = [
   {
@@ -41,22 +41,167 @@ const projects = [
   },
 ]
 
-function Projects() {
-  const [openIndex, setOpenIndex] = useState(null)
+// Project List Item Component
+function ProjectListItem({ project, isSelected, onClick, index }) {
+  return (
+    <motion.button
+      initial={{ opacity: 0, x: -20 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.4, delay: index * 0.1 }}
+      onClick={onClick}
+      className={`w-full text-left p-4 rounded-xl transition-all duration-300 ${isSelected
+        ? 'bg-cyber-blue/10 border border-cyber-blue/40'
+        : 'bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20'
+        }`}
+    >
+      <div className="flex items-center gap-3">
+        <div className={`w-2 h-2 rounded-full ${isSelected ? 'bg-cyber-blue' : 'bg-robotic-teal'}`} />
+        <h3 className={`font-semibold text-lg ${isSelected ? 'text-cyber-blue' : 'text-white'}`}>
+          {project.name}
+        </h3>
+      </div>
 
-  const handleToggle = (index) => {
-    setOpenIndex(openIndex === index ? null : index)
+      {/* Show summary when selected */}
+      <AnimatePresence>
+        {isSelected && (
+          <motion.p
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="text-soft-gray text-sm mt-3 pl-5 overflow-hidden"
+          >
+            {project.summary}
+          </motion.p>
+        )}
+      </AnimatePresence>
+    </motion.button>
+  )
+}
+
+// Project Details Panel Component
+function ProjectDetailsPanel({ project }) {
+  if (!project) {
+    return (
+      <div className="h-full flex items-center justify-center glass-card rounded-2xl p-8">
+        <div className="text-center">
+          <Layers size={48} className="text-soft-gray/30 mx-auto mb-4" />
+          <p className="text-soft-gray">Select a project to view details</p>
+        </div>
+      </div>
+    )
   }
+
+  return (
+    <motion.div
+      key={project.name}
+      initial={{ opacity: 0, x: 20 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.4 }}
+      className="glass-card rounded-2xl p-8 h-full"
+    >
+      {/* Project Header */}
+      <div className="flex items-start gap-4 mb-6">
+        <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-cyber-blue/20 to-robotic-teal/10 flex items-center justify-center flex-shrink-0">
+          <Layers size={28} className="text-cyber-blue" />
+        </div>
+        <div>
+          <h3 className="text-2xl font-bold text-white mb-2">{project.name}</h3>
+          <p className="text-soft-gray">{project.summary}</p>
+        </div>
+      </div>
+
+      {/* The Challenge */}
+      <div className="mb-6">
+        <h4 className="text-base font-semibold text-robotic-teal uppercase tracking-wider mb-3">
+          The Challenge
+        </h4>
+        <p className="text-soft-gray text-base leading-relaxed">
+          {project.problem}
+        </p>
+      </div>
+
+      {/* The Solution */}
+      <div className="mb-6">
+        <h4 className="text-base font-semibold text-cyber-blue uppercase tracking-wider mb-3">
+          The Solution
+        </h4>
+        <p className="text-soft-gray text-base leading-relaxed">
+          {project.solution}
+        </p>
+      </div>
+
+      {/* Impact */}
+      <div className="p-4 rounded-xl bg-gradient-to-r from-cyber-blue/10 to-robotic-teal/10 border border-cyber-blue/20 mb-6">
+        <h4 className="text-base font-semibold text-white mb-2">
+          Impact
+        </h4>
+        <p className="text-cyber-blue text-base font-medium">
+          {project.impact}
+        </p>
+      </div>
+
+      {/* Tech Stack */}
+      <div className="mb-6">
+        <h4 className="text-sm font-semibold text-soft-gray mb-3">
+          Tech Stack
+        </h4>
+        <div className="flex flex-wrap gap-2">
+          {project.techStack.map((tech, idx) => (
+            <span
+              key={idx}
+              className="text-xs font-mono px-3 py-1.5 rounded-md bg-white/5 text-soft-gray border border-white/10"
+            >
+              {tech}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* Links */}
+      <div className="flex gap-4 pt-4 border-t border-white/10">
+        {project.githubUrl && (
+          <motion.a
+            href={project.githubUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 text-sm text-soft-gray hover:text-cyber-blue transition-colors"
+            whileHover={{ x: 3 }}
+          >
+            <Github size={18} />
+            View on GitHub
+          </motion.a>
+        )}
+        {project.demoUrl && (
+          <motion.a
+            href={project.demoUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 text-sm text-soft-gray hover:text-robotic-teal transition-colors"
+            whileHover={{ x: 3 }}
+          >
+            <ExternalLink size={18} />
+            Live Demo
+          </motion.a>
+        )}
+      </div>
+    </motion.div>
+  )
+}
+
+function Projects() {
+  const [selectedIndex, setSelectedIndex] = useState(0) // Default to first project
 
   return (
     <section id="work" className="py-24 relative">
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-b from-obsidian to-obsidian/90 pointer-events-none" />
-      
+
       {/* Subtle Grid */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(0,212,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,212,255,0.02)_1px,transparent_1px)] bg-[size:80px_80px] pointer-events-none" />
 
-      <div className="max-w-4xl mx-auto px-6 relative z-10">
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -73,22 +218,30 @@ function Projects() {
             <span className="gradient-text">Projects</span>
           </h2>
           <p className="text-soft-gray max-w-xl mx-auto">
-            Click on any project to explore the technical challenges, solutions,
+            Select a project to explore the technical challenges, solutions,
             and measurable impact of our work.
           </p>
         </motion.div>
 
-        {/* Project Cards */}
-        <div className="space-y-4">
-          {projects.map((project, index) => (
-            <ProjectAccordion
-              key={project.name}
-              project={project}
-              isOpen={openIndex === index}
-              onClick={() => handleToggle(index)}
-              index={index}
-            />
-          ))}
+        {/* Split Panel Layout */}
+        <div className="grid lg:grid-cols-5 gap-8">
+          {/* Left Panel - Project List */}
+          <div className="lg:col-span-2 space-y-3">
+            {projects.map((project, index) => (
+              <ProjectListItem
+                key={project.name}
+                project={project}
+                isSelected={selectedIndex === index}
+                onClick={() => setSelectedIndex(index)}
+                index={index}
+              />
+            ))}
+          </div>
+
+          {/* Right Panel - Project Details */}
+          <div className="lg:col-span-3">
+            <ProjectDetailsPanel project={projects[selectedIndex]} />
+          </div>
         </div>
 
         {/* View More CTA */}
@@ -97,7 +250,7 @@ function Projects() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="text-center mt-12"
+          className="flex flex-col items-center gap-4 mt-12"
         >
           <motion.a
             href="https://github.com"
@@ -120,6 +273,17 @@ function Projects() {
                 clipRule="evenodd"
               />
             </svg>
+          </motion.a>
+
+          {/* Want Similar Results CTA */}
+          <motion.a
+            href="#contact"
+            className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-cyber-blue to-robotic-teal text-obsidian font-semibold rounded-xl text-lg"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            Want similar results? Let's talk
+            <span>→</span>
           </motion.a>
         </motion.div>
       </div>

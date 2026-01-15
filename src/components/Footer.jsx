@@ -1,6 +1,9 @@
 import { motion } from 'framer-motion'
 import { Github, Linkedin, Twitter, Mail, Heart } from 'lucide-react'
 
+// Helper to get correct asset URL with base path
+const getAssetUrl = (path) => `${import.meta.env.BASE_URL}${path.startsWith('/') ? path.slice(1) : path}`
+
 const footerLinks = [
   { label: 'Services', href: '#services' },
   { label: 'Work', href: '#work' },
@@ -40,7 +43,7 @@ function Footer() {
               whileHover={{ scale: 1.02 }}
             >
               <img
-                src="/main_logo.png"
+                src={getAssetUrl('/main_logo.png')}
                 alt="ROS Compass Logo"
                 className="w-10 h-10 rounded-lg object-cover"
               />

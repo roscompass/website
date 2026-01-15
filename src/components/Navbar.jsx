@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
 
+// Helper to get correct asset URL with base path
+const getAssetUrl = (path) => `${import.meta.env.BASE_URL}${path.startsWith('/') ? path.slice(1) : path}`
+
 const navItems = [
   { id: 'hero', label: 'Home' },
   { id: 'services', label: 'Services' },
@@ -47,7 +50,7 @@ function Navbar({ activeSection }) {
           whileHover={{ scale: 1.05 }}
         >
           <img
-            src="/main_logo.png"
+            src={getAssetUrl('/main_logo.png')}
             alt="ROS Compass Logo"
             className="w-10 h-10 rounded-lg object-cover"
           />

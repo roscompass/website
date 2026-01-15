@@ -2,6 +2,9 @@ import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Box, Code, Navigation, MessageSquare, X, ArrowRight, ChevronDown } from 'lucide-react'
 
+// Helper to get correct asset URL with base path
+const getAssetUrl = (path) => `${import.meta.env.BASE_URL}${path.startsWith('/') ? path.slice(1) : path}`
+
 // Detailed content for each service
 const servicesData = [
   {
@@ -9,6 +12,7 @@ const servicesData = [
     title: 'Rapid Prototyping & Virtual Commissioning',
     description: 'Bridge the gap between hardware concept and functional reality. We build high-fidelity virtual environments to validate logic before a single part is ordered.',
     subPoints: ['URDF/Xacro Modeling', 'Sensor Integration', 'Gazebo/Isaac Sim'],
+    image: '/rapid_prototyping_service_image.png',
     expandedContent: {
       sections: [
         {
@@ -37,6 +41,7 @@ const servicesData = [
     title: 'Specialized ROS Module Development',
     description: 'Expert outsourcing for specific subsections of your robot project. Clean, documented, and tested nodes.',
     subPoints: ['Custom CV Pipelines', 'Nav2 Planners', 'Trajectory Execution'],
+    image: '/specialized_ros_modeule_development_service_image.png.png',
     expandedContent: {
       sections: [
         {
@@ -64,6 +69,7 @@ const servicesData = [
     title: 'Advanced Autonomy Stacks (Nav2 & MoveIt2)',
     description: "Specializing in the configuration and fine-tuning of the industry's most robust frameworks.",
     subPoints: ['Behavior Trees', '6-DOF Collision Avoidance', 'ROS1 to ROS2 Migration'],
+    image: '/technical_stratergy_image.png',
     expandedContent: {
       sections: [
         {
@@ -92,6 +98,7 @@ const servicesData = [
     title: 'Technical Advisory & Strategy',
     description: 'High-level consultation to ensure your architecture is scalable and future-proof.',
     subPoints: ['Hardware Selection', 'Stack Audits', 'Architecture Design'],
+    image: '/technical_advisory_image.png',
     expandedContent: {
       sections: [
         {
@@ -116,18 +123,25 @@ const servicesData = [
   },
 ]
 
-// Service Card Component
-function ServiceCard({ service, index, isExpanded, onClick }) {
+// Unified Service Card with Expandable Content
+function ServiceCard({ service, index, isExpanded, onToggle, onClose, cardRef }) {
   const Icon = service.icon
+
+  const scrollToContact = () => {
+    onClose()
+    setTimeout(() => {
+      document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })
+    }, 300)
+  }
 
   return (
     <motion.div
+      ref={cardRef}
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      onClick={onClick}
-      className={`group relative p-6 rounded-2xl glass-card overflow-hidden cursor-pointer transition-all duration-300 ${isExpanded ? 'border-cyber-blue/50 bg-cyber-blue/5' : 'hover:border-cyber-blue/50'
+      className={`group relative rounded-2xl glass-card overflow-hidden transition-all duration-300 ${isExpanded ? 'border-cyber-blue/50 bg-cyber-blue/5 col-span-full' : 'hover:border-cyber-blue/50'
         }`}
     >
       {/* Hover Glow Effect */}
@@ -138,7 +152,11 @@ function ServiceCard({ service, index, isExpanded, onClick }) {
       <div className={`absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyber-blue/50 to-transparent transition-opacity ${isExpanded ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
         }`} />
 
-      <div className="relative z-10">
+      {/* Card Header - Always visible, clickable */}
+      <div
+        onClick={onToggle}
+        className="relative z-10 p-6 cursor-pointer"
+      >
         <div className="flex items-start justify-between gap-4">
           <div className="flex-1">
             {/* Icon */}
@@ -171,96 +189,102 @@ function ServiceCard({ service, index, isExpanded, onClick }) {
             </div>
           </div>
 
-          {/* Expand indicator */}
-          <motion.div
-            animate={{ rotate: isExpanded ? 180 : 0 }}
-            transition={{ duration: 0.3 }}
-            className="text-soft-gray"
-          >
-            <ChevronDown size={24} />
-          </motion.div>
+          {/* Expand indicator and close button */}
+          <div className="flex items-center gap-2">
+            {isExpanded && (
+              <button
+                onClick={(e) => { e.stopPropagation(); onClose(); }}
+                className="p-2 rounded-lg hover:bg-white/10 transition-colors text-soft-gray hover:text-white"
+              >
+                <X size={20} />
+              </button>
+            )}
+            <motion.div
+              animate={{ rotate: isExpanded ? 180 : 0 }}
+              transition={{ duration: 0.3 }}
+              className="text-soft-gray"
+            >
+              <ChevronDown size={24} />
+            </motion.div>
+          </div>
         </div>
       </div>
-    </motion.div>
-  )
-}
 
-// Expanded Content Component
-function ExpandedContent({ service, onClose }) {
-  const contentRef = useRef(null)
-
-  const scrollToContact = () => {
-    onClose()
-    setTimeout(() => {
-      document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })
-    }, 300)
-  }
-
-  return (
-    <motion.div
-      ref={contentRef}
-      initial={{ height: 0, opacity: 0 }}
-      animate={{ height: 'auto', opacity: 1 }}
-      exit={{ height: 0, opacity: 0 }}
-      transition={{ duration: 0.4, ease: 'easeInOut' }}
-      className="overflow-hidden col-span-full"
-    >
-      <div className="p-6 rounded-2xl glass-card border border-cyber-blue/30 mt-4">
-        {/* Close button */}
-        <div className="flex justify-end mb-4">
-          <button
-            onClick={(e) => { e.stopPropagation(); onClose(); }}
-            className="p-2 rounded-lg hover:bg-white/10 transition-colors text-soft-gray hover:text-white"
+      {/* Expanded Content - INSIDE the same card container */}
+      <AnimatePresence>
+        {isExpanded && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.4, ease: 'easeInOut' }}
+            className="overflow-hidden"
           >
-            <X size={20} />
-          </button>
-        </div>
+            {/* Divider line */}
+            <div className="mx-6 border-t border-white/10" />
 
-        {/* Content sections */}
-        <div className="grid md:grid-cols-2 gap-8">
-          {service.expandedContent.sections.map((section, sectionIdx) => (
-            <div key={sectionIdx}>
-              <h4 className="text-sm font-semibold text-robotic-teal uppercase tracking-wider mb-4">
-                {section.heading}
-              </h4>
-              <div className="space-y-3">
-                {section.items.map((item, itemIdx) => (
-                  <div
-                    key={itemIdx}
-                    className="p-4 rounded-xl bg-white/5 border border-white/5"
-                  >
-                    <div className="flex items-start gap-3">
-                      {item.icon && (
-                        <span className="text-lg">{item.icon}</span>
-                      )}
-                      <div>
-                        <h5 className="font-semibold text-white text-sm mb-1">{item.title}</h5>
-                        <p className="text-soft-gray text-xs leading-relaxed">{item.desc}</p>
+            <div className="p-8">
+              {/* Two column layout: Content on left, Image on right */}
+              <div className="grid md:grid-cols-2 gap-8">
+                {/* Left Column - All content sections stacked */}
+                <div className="space-y-8">
+                  {service.expandedContent.sections.map((section, sectionIdx) => (
+                    <div key={sectionIdx}>
+                      <h4 className="text-base font-semibold text-robotic-teal uppercase tracking-wider mb-4">
+                        {section.heading}
+                      </h4>
+                      <div className="space-y-4">
+                        {section.items.map((item, itemIdx) => (
+                          <div key={itemIdx}>
+                            <div className="flex items-start gap-2 mb-1">
+                              {item.icon && (
+                                <span className="text-base">{item.icon}</span>
+                              )}
+                              <h5 className="font-semibold text-white text-lg">{item.title}</h5>
+                            </div>
+                            <p className="text-soft-gray text-base leading-relaxed pl-0">
+                              {item.desc}
+                            </p>
+                          </div>
+                        ))}
                       </div>
                     </div>
+                  ))}
+                </div>
+
+                {/* Right Column - Image */}
+                <div className="flex items-center justify-center">
+                  <div className="relative w-full h-full min-h-[300px] rounded-2xl overflow-hidden border border-white/10">
+                    <img
+                      src={getAssetUrl(service.image)}
+                      alt={service.title}
+                      className="w-full h-full object-cover"
+                    />
+                    {/* Gradient overlay for better blending */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-obsidian/50 to-transparent" />
                   </div>
-                ))}
+                </div>
+              </div>
+
+              {/* CTA Footer */}
+              <div className="mt-8 pt-6 border-t border-white/10 flex justify-center">
+                <motion.button
+                  onClick={scrollToContact}
+                  className="flex flex-col items-center gap-3 px-10 py-5 bg-gradient-to-r from-cyber-blue to-robotic-teal text-obsidian font-semibold rounded-xl"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <span className="text-lg">🚀 {service.expandedContent.hookText}</span>
+                  <span className="flex items-center gap-2 font-bold text-xl">
+                    {service.expandedContent.ctaText}
+                    <ArrowRight size={22} />
+                  </span>
+                </motion.button>
               </div>
             </div>
-          ))}
-        </div>
-
-        {/* CTA Footer */}
-        <div className="mt-8 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-soft-gray text-sm">
-            🚀 {service.expandedContent.hookText}
-          </p>
-          <motion.button
-            onClick={scrollToContact}
-            className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-cyber-blue to-robotic-teal text-obsidian font-semibold rounded-lg whitespace-nowrap text-sm"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            {service.expandedContent.ctaText}
-            <ArrowRight size={16} />
-          </motion.button>
-        </div>
-      </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   )
 }
@@ -268,10 +292,16 @@ function ExpandedContent({ service, onClose }) {
 // Main Services Component
 function Services() {
   const [expandedIndex, setExpandedIndex] = useState(null)
-  const expandedRef = useRef(null)
+  const [previousExpandedIndex, setPreviousExpandedIndex] = useState(null)
   const servicesGridRef = useRef(null)
+  const sectionRef = useRef(null)
+  const cardRefs = useRef([])
 
-  const handleCardClick = (index) => {
+  // Navbar height offset (adjust if your navbar height changes)
+  const NAVBAR_OFFSET = 80
+
+  const handleCardToggle = (index) => {
+    setPreviousExpandedIndex(expandedIndex)
     if (expandedIndex === index) {
       setExpandedIndex(null)
     } else {
@@ -279,19 +309,34 @@ function Services() {
     }
   }
 
-  // Scroll to expanded content when it opens
+  // Scroll to expanded card or back to section when collapsing
   useEffect(() => {
-    if (expandedIndex !== null && expandedRef.current) {
+    if (expandedIndex !== null && cardRefs.current[expandedIndex]) {
+      // Determine delay based on whether switching cards or opening fresh
+      const isSwitchingCards = previousExpandedIndex !== null && previousExpandedIndex !== expandedIndex
+      const scrollDelay = isSwitchingCards ? 450 : 100 // Wait longer for collapse animation when switching
+
       setTimeout(() => {
-        expandedRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+        const cardElement = cardRefs.current[expandedIndex]
+        if (cardElement) {
+          const cardTop = cardElement.getBoundingClientRect().top + window.scrollY - NAVBAR_OFFSET
+          window.scrollTo({ top: cardTop, behavior: 'smooth' })
+        }
+      }, scrollDelay)
+    } else if (expandedIndex === null && previousExpandedIndex !== null && sectionRef.current) {
+      // Collapsing - scroll back to services section
+      setTimeout(() => {
+        const sectionTop = sectionRef.current.getBoundingClientRect().top + window.scrollY - NAVBAR_OFFSET
+        window.scrollTo({ top: sectionTop, behavior: 'smooth' })
       }, 100)
     }
-  }, [expandedIndex])
+  }, [expandedIndex, previousExpandedIndex])
 
   // Close when clicking outside the services grid
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (expandedIndex !== null && servicesGridRef.current && !servicesGridRef.current.contains(event.target)) {
+        setPreviousExpandedIndex(expandedIndex)
         setExpandedIndex(null)
       }
     }
@@ -300,16 +345,8 @@ function Services() {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [expandedIndex])
 
-  // Determine which row the expanded card is in (for 2-column layout)
-  const getExpandedRow = () => {
-    if (expandedIndex === null) return -1
-    return Math.floor(expandedIndex / 2)
-  }
-
-  const expandedRow = getExpandedRow()
-
   return (
-    <section id="services" className="py-24 relative">
+    <section id="services" ref={sectionRef} className="py-24 relative">
       {/* Background Gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-obsidian via-obsidian/95 to-obsidian pointer-events-none" />
 
@@ -335,59 +372,19 @@ function Services() {
           </p>
         </motion.div>
 
-        {/* Services Grid with Dynamic Expansion */}
+        {/* Services Grid */}
         <div ref={servicesGridRef} className="grid md:grid-cols-2 gap-6">
-          {/* Row 0: Cards 0 and 1 */}
-          <ServiceCard
-            service={servicesData[0]}
-            index={0}
-            isExpanded={expandedIndex === 0}
-            onClick={() => handleCardClick(0)}
-          />
-          <ServiceCard
-            service={servicesData[1]}
-            index={1}
-            isExpanded={expandedIndex === 1}
-            onClick={() => handleCardClick(1)}
-          />
-
-          {/* Expanded content for Row 0 */}
-          <AnimatePresence>
-            {expandedRow === 0 && (
-              <div ref={expandedRef} className="col-span-full">
-                <ExpandedContent
-                  service={servicesData[expandedIndex]}
-                  onClose={() => setExpandedIndex(null)}
-                />
-              </div>
-            )}
-          </AnimatePresence>
-
-          {/* Row 1: Cards 2 and 3 */}
-          <ServiceCard
-            service={servicesData[2]}
-            index={2}
-            isExpanded={expandedIndex === 2}
-            onClick={() => handleCardClick(2)}
-          />
-          <ServiceCard
-            service={servicesData[3]}
-            index={3}
-            isExpanded={expandedIndex === 3}
-            onClick={() => handleCardClick(3)}
-          />
-
-          {/* Expanded content for Row 1 */}
-          <AnimatePresence>
-            {expandedRow === 1 && (
-              <div ref={expandedRef} className="col-span-full">
-                <ExpandedContent
-                  service={servicesData[expandedIndex]}
-                  onClose={() => setExpandedIndex(null)}
-                />
-              </div>
-            )}
-          </AnimatePresence>
+          {servicesData.map((service, index) => (
+            <ServiceCard
+              key={service.title}
+              service={service}
+              index={index}
+              isExpanded={expandedIndex === index}
+              onToggle={() => handleCardToggle(index)}
+              onClose={() => { setPreviousExpandedIndex(expandedIndex); setExpandedIndex(null) }}
+              cardRef={(el) => cardRefs.current[index] = el}
+            />
+          ))}
         </div>
       </div>
     </section>

@@ -27,7 +27,7 @@ function ProjectAccordion({ project, isOpen, onClick, index }) {
             {project.name}
           </h3>
           <p className="text-soft-gray text-sm">{project.summary}</p>
-          
+
           {/* Tech Stack Preview */}
           <div className="flex flex-wrap gap-2 mt-3">
             {project.techStack.slice(0, 3).map((tech, idx) => (
@@ -70,30 +70,30 @@ function ProjectAccordion({ project, isOpen, onClick, index }) {
               <div className="border-t border-white/10 pt-6 space-y-6">
                 {/* Problem */}
                 <div>
-                  <h4 className="text-sm font-semibold text-robotic-teal uppercase tracking-wider mb-2">
+                  <h4 className="text-base font-semibold text-robotic-teal uppercase tracking-wider mb-2">
                     The Challenge
                   </h4>
-                  <p className="text-soft-gray text-sm leading-relaxed">
+                  <p className="text-soft-gray text-base leading-relaxed">
                     {project.problem}
                   </p>
                 </div>
 
                 {/* Solution */}
                 <div>
-                  <h4 className="text-sm font-semibold text-cyber-blue uppercase tracking-wider mb-2">
+                  <h4 className="text-base font-semibold text-cyber-blue uppercase tracking-wider mb-2">
                     The Solution
                   </h4>
-                  <p className="text-soft-gray text-sm leading-relaxed">
+                  <p className="text-soft-gray text-base leading-relaxed">
                     {project.solution}
                   </p>
                 </div>
 
                 {/* Impact */}
                 <div className="p-4 rounded-xl bg-gradient-to-r from-cyber-blue/10 to-robotic-teal/10 border border-cyber-blue/20">
-                  <h4 className="text-sm font-semibold text-white mb-1">
+                  <h4 className="text-base font-semibold text-white mb-1">
                     Impact
                   </h4>
-                  <p className="text-cyber-blue text-sm font-medium">
+                  <p className="text-cyber-blue text-base font-medium">
                     {project.impact}
                   </p>
                 </div>

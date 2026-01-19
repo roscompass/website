@@ -1,13 +1,15 @@
 import { motion } from 'framer-motion'
 import { Mail, MapPin, Clock, Linkedin, Github, Twitter } from 'lucide-react'
+import { useEffect } from 'react'
+import { getCalApi } from '@calcom/embed-react'
 import ContactForm from './ContactForm'
 
 const contactInfo = [
   {
     icon: Mail,
     label: 'Email',
-    value: 'hello@roscompass.dev',
-    href: 'mailto:hello@roscompass.dev',
+    value: 'ros.compass@gmail.com',
+    href: 'mailto:ros.compass@gmail.com',
   },
   {
     icon: MapPin,
@@ -18,7 +20,7 @@ const contactInfo = [
   {
     icon: Clock,
     label: 'Response Time',
-    value: 'Within 24 hours',
+    value: 'Within 12 hours',
     href: null,
   },
 ]
@@ -30,6 +32,28 @@ const socialLinks = [
 ]
 
 function Contact() {
+  useEffect(() => {
+    ; (async function () {
+      const cal = await getCalApi()
+      cal('ui', {
+        theme: 'dark',
+        styles: {
+          branding: { brandColor: '#00D4FF' },
+        },
+        hideEventTypeDetails: false,
+        layout: 'month_view',
+      })
+    })()
+  }, [])
+
+  const handleBooking = async () => {
+    const cal = await getCalApi()
+    cal('modal', {
+      calLink: 'viswa-teja-bottu-egakej/scheduled-call-for-ros-compass',
+      config: { layout: 'month_view', theme: 'dark' }
+    })
+  }
+
   return (
     <section id="contact" className="py-24 relative overflow-hidden">
       {/* Background Elements */}
@@ -54,7 +78,7 @@ function Contact() {
             <span className="text-white"> Your Development?</span>
           </h2>
           <p className="text-soft-gray max-w-xl mx-auto">
-            Let's discuss how we can accelerate your robotics project. Whether you need 
+            Let's discuss how we can accelerate your robotics project. Whether you need
             full-stack development or targeted consulting, I'm here to help.
           </p>
         </motion.div>
@@ -135,16 +159,18 @@ function Contact() {
                 Prefer a quick call?
               </h3>
               <p className="text-soft-gray text-sm leading-relaxed mb-4">
-                Schedule a 30-minute technical discovery call to discuss your project 
+                Schedule a 30-minute technical discovery call to discuss your project
                 requirements and explore how we can work together.
               </p>
-              <motion.a
-                href="#"
-                className="inline-flex items-center gap-2 text-cyber-blue font-medium text-sm hover:underline"
-                whileHover={{ x: 3 }}
+              <motion.button
+                type="button"
+                onClick={handleBooking}
+                className="inline-flex items-center gap-2 text-cyber-blue font-medium text-sm hover:underline cursor-pointer relative z-20"
+                whileHover={{ x: 5 }}
+                whileTap={{ scale: 0.95 }}
               >
                 Schedule a Call →
-              </motion.a>
+              </motion.button>
             </motion.div>
           </motion.div>
 
@@ -159,7 +185,7 @@ function Contact() {
             {/* Form Glow */}
             <div className="absolute top-0 right-0 w-32 h-32 bg-cyber-blue/10 rounded-full blur-3xl pointer-events-none" />
             <div className="absolute bottom-0 left-0 w-32 h-32 bg-robotic-teal/10 rounded-full blur-3xl pointer-events-none" />
-            
+
             <div className="relative z-10">
               <h3 className="text-xl font-semibold text-white mb-2">
                 Send a Message

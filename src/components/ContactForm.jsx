@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Send, User, Mail, MessageSquare, CheckCircle, Loader } from 'lucide-react'
+import emailjs from '@emailjs/browser'
 
 function ContactForm() {
   const [formData, setFormData] = useState({
@@ -16,26 +17,43 @@ function ContactForm() {
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault()
     setStatus('loading')
-    
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1500))
-    
-    // In production, replace with actual form submission logic
-    console.log('Form submitted:', formData)
-    setStatus('success')
-    setFormData({ name: '', email: '', message: '' })
-    
-    // Reset status after 3 seconds
-    setTimeout(() => setStatus('idle'), 3000)
+
+    const emailParams = {
+      from_name: formData.name,
+      from_email: formData.email,
+      subject: `New Message from ${formData.name}`,
+      message: formData.message,
+      to_email: "ros.compass@gmail.com",
+    };
+
+    emailjs
+      .send(
+        "service_5i2rec3",
+        "template_kxpue2p",
+        emailParams,
+        "rpk3K3rsSk9eIZYoV"
+      )
+      .then(() => {
+        alert("Message sent successfully!. We'll contact you as soon as possible. Thank You");
+        setStatus('success')
+        setFormData({ name: '', email: '', message: '' })
+        setTimeout(() => setStatus('idle'), 3000)
+      })
+      .catch((error) => {
+        alert("Failed to send message. Please try again.");
+        console.error("EmailJS Error:", error);
+        setStatus('error')
+        setTimeout(() => setStatus('idle'), 3000)
+      });
   }
 
   const inputClasses = (field) => `
     w-full px-4 py-3 rounded-lg bg-white/5 border transition-all duration-300 outline-none
-    ${focused === field 
-      ? 'border-cyber-blue shadow-[0_0_15px_rgba(0,212,255,0.15)]' 
+    ${focused === field
+      ? 'border-cyber-blue shadow-[0_0_15px_rgba(0,212,255,0.15)]'
       : 'border-white/10 hover:border-white/20'
     }
     text-white placeholder-soft-gray/50
@@ -58,9 +76,8 @@ function ContactForm() {
         <div className="relative">
           <User
             size={18}
-            className={`absolute left-4 top-1/2 -translate-y-1/2 transition-colors ${
-              focused === 'name' ? 'text-cyber-blue' : 'text-soft-gray/50'
-            }`}
+            className={`absolute left-4 top-1/2 -translate-y-1/2 transition-colors ${focused === 'name' ? 'text-cyber-blue' : 'text-soft-gray/50'
+              }`}
           />
           <input
             type="text"
@@ -84,9 +101,8 @@ function ContactForm() {
         <div className="relative">
           <Mail
             size={18}
-            className={`absolute left-4 top-1/2 -translate-y-1/2 transition-colors ${
-              focused === 'email' ? 'text-cyber-blue' : 'text-soft-gray/50'
-            }`}
+            className={`absolute left-4 top-1/2 -translate-y-1/2 transition-colors ${focused === 'email' ? 'text-cyber-blue' : 'text-soft-gray/50'
+              }`}
           />
           <input
             type="email"
@@ -110,9 +126,8 @@ function ContactForm() {
         <div className="relative">
           <MessageSquare
             size={18}
-            className={`absolute left-4 top-4 transition-colors ${
-              focused === 'message' ? 'text-cyber-blue' : 'text-soft-gray/50'
-            }`}
+            className={`absolute left-4 top-4 transition-colors ${focused === 'message' ? 'text-cyber-blue' : 'text-soft-gray/50'
+              }`}
           />
           <textarea
             name="message"
@@ -135,8 +150,8 @@ function ContactForm() {
         className={`
           w-full py-4 px-6 rounded-lg font-semibold text-sm flex items-center justify-center gap-2
           transition-all duration-300 
-          ${status === 'success' 
-            ? 'bg-robotic-teal text-obsidian' 
+          ${status === 'success'
+            ? 'bg-robotic-teal text-obsidian'
             : 'bg-gradient-to-r from-cyber-blue to-robotic-teal text-obsidian hover:shadow-lg hover:shadow-cyber-blue/25'
           }
           disabled:opacity-70 disabled:cursor-not-allowed

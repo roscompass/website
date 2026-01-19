@@ -13,9 +13,9 @@ const footerLinks = [
 
 const socialLinks = [
   { icon: Github, href: 'https://github.com', label: 'GitHub' },
-  { icon: Linkedin, href: 'https://linkedin.com', label: 'LinkedIn' },
+  { icon: Linkedin, href: 'https://www.linkedin.com/in/viswa-teja-bottu-7147831b3/', label: 'LinkedIn' },
   { icon: Twitter, href: 'https://twitter.com', label: 'Twitter' },
-  { icon: Mail, href: 'mailto:hello@roscompass.dev', label: 'Email' },
+  { icon: Mail, href: 'mailto:ros.compass@gmail.com', label: 'Email' },
 ]
 
 function Footer() {
@@ -94,8 +94,8 @@ function Footer() {
               ))}
             </div>
             <p className="text-soft-gray text-sm">
-              <a href="mailto:hello@roscompass.dev" className="hover:text-cyber-blue transition-colors">
-                hello@roscompass.dev
+              <a href="mailto:ros.compass@gmail.com" className="hover:text-cyber-blue transition-colors">
+                ros.compass@gmail.com
               </a>
             </p>
           </div>
@@ -107,7 +107,7 @@ function Footer() {
             © {new Date().getFullYear()} ROS Startup Compass. All rights reserved.
           </p>
           <p className="text-soft-gray text-sm flex items-center gap-1">
-            Built with <Heart size={14} className="text-robotic-teal" /> using React & Tailwind
+            Developed by Viswa Teja Bottu , ROS Compass
           </p>
         </div>
       </div>

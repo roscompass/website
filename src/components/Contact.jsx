@@ -18,7 +18,7 @@ const contactInfo = [
   {
     icon: Clock,
     label: 'Response Time',
-    value: 'Within 24 hours',
+    value: 'Within 12 hours',
     href: null,
   },
 ]
@@ -54,7 +54,7 @@ function Contact() {
             <span className="text-white"> Your Development?</span>
           </h2>
           <p className="text-soft-gray max-w-xl mx-auto">
-            Let's discuss how we can accelerate your robotics project. Whether you need 
+            Let's discuss how we can accelerate your robotics project. Whether you need
             full-stack development or targeted consulting, I'm here to help.
           </p>
         </motion.div>
@@ -135,7 +135,7 @@ function Contact() {
                 Prefer a quick call?
               </h3>
               <p className="text-soft-gray text-sm leading-relaxed mb-4">
-                Schedule a 30-minute technical discovery call to discuss your project 
+                Schedule a 30-minute technical discovery call to discuss your project
                 requirements and explore how we can work together.
               </p>
               <motion.a
@@ -159,7 +159,7 @@ function Contact() {
             {/* Form Glow */}
             <div className="absolute top-0 right-0 w-32 h-32 bg-cyber-blue/10 rounded-full blur-3xl pointer-events-none" />
             <div className="absolute bottom-0 left-0 w-32 h-32 bg-robotic-teal/10 rounded-full blur-3xl pointer-events-none" />
-            
+
             <div className="relative z-10">
               <h3 className="text-xl font-semibold text-white mb-2">
                 Send a Message

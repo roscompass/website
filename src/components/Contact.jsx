@@ -34,7 +34,7 @@ const socialLinks = [
 function Contact() {
   useEffect(() => {
     ; (async function () {
-      const cal = await getCalApi({ namespace: 'technical-call' })
+      const cal = await getCalApi()
       cal('ui', {
         theme: 'dark',
         styles: {
@@ -45,6 +45,14 @@ function Contact() {
       })
     })()
   }, [])
+
+  const handleBooking = async () => {
+    const cal = await getCalApi()
+    cal('modal', {
+      calLink: 'viswa-teja-bottu-egakej/scheduled-call-for-ros-compass',
+      config: { layout: 'month_view', theme: 'dark' }
+    })
+  }
 
   return (
     <section id="contact" className="py-24 relative overflow-hidden">
@@ -155,11 +163,11 @@ function Contact() {
                 requirements and explore how we can work together.
               </p>
               <motion.button
-                data-cal-namespace="technical-call"
-                data-cal-link="viswa-teja-bottu-egakej/scheduled-call-for-ros-compass"
-                data-cal-config='{"layout":"month_view","theme":"dark"}'
-                className="inline-flex items-center gap-2 text-cyber-blue font-medium text-sm hover:underline"
-                whileHover={{ x: 3 }}
+                type="button"
+                onClick={handleBooking}
+                className="inline-flex items-center gap-2 text-cyber-blue font-medium text-sm hover:underline cursor-pointer relative z-20"
+                whileHover={{ x: 5 }}
+                whileTap={{ scale: 0.95 }}
               >
                 Schedule a Call →
               </motion.button>

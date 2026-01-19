@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Layers, Github, ExternalLink } from 'lucide-react'
+import { getCalApi } from '@calcom/embed-react'
 
 const projects = [
   {
@@ -191,6 +192,28 @@ function ProjectDetailsPanel({ project }) {
 }
 
 function Projects() {
+  useEffect(() => {
+    ; (async function () {
+      const cal = await getCalApi()
+      cal('ui', {
+        theme: 'dark',
+        styles: {
+          branding: { brandColor: '#00D4FF' },
+        },
+        hideEventTypeDetails: false,
+        layout: 'month_view',
+      })
+    })()
+  }, [])
+
+  const handleBooking = async () => {
+    const cal = await getCalApi()
+    cal('modal', {
+      calLink: 'viswa-teja-bottu-egakej/scheduled-call-for-ros-compass',
+      config: { layout: 'month_view', theme: 'dark' }
+    })
+  }
+
   const [selectedIndex, setSelectedIndex] = useState(0) // Default to first project
 
   return (
@@ -276,15 +299,16 @@ function Projects() {
           </motion.a>
 
           {/* Want Similar Results CTA */}
-          <motion.a
-            href="#contact"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-cyber-blue to-robotic-teal text-obsidian font-semibold rounded-xl text-lg"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
+          <motion.button
+            type="button"
+            onClick={handleBooking}
+            className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-cyber-blue to-robotic-teal text-obsidian font-semibold rounded-xl text-lg cursor-pointer relative z-20 hover:shadow-lg hover:shadow-cyber-blue/25 transition-all"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
             Want similar results? Let's talk
             <span>→</span>
-          </motion.a>
+          </motion.button>
         </motion.div>
       </div>
     </section>

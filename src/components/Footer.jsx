@@ -107,7 +107,7 @@ function Footer() {
             © {new Date().getFullYear()} ROS Startup Compass. All rights reserved.
           </p>
           <p className="text-soft-gray text-sm flex items-center gap-1">
-            Built with <Heart size={14} className="text-robotic-teal" /> using React & Tailwind
+            Developed by Viswa Teja Bottu , ROS Compass
           </p>
         </div>
       </div>

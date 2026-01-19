@@ -1,5 +1,7 @@
 import { motion } from 'framer-motion'
 import { ArrowRight, Terminal, Cpu, Bot } from 'lucide-react'
+import { useEffect } from 'react'
+import { getCalApi } from '@calcom/embed-react'
 
 // Import logos from public folder using Vite's asset handling
 const mainLogo = '/main_logo.png'
@@ -18,6 +20,28 @@ function Hero() {
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' })
     }
+  }
+
+  useEffect(() => {
+    ; (async function () {
+      const cal = await getCalApi()
+      cal('ui', {
+        theme: 'dark',
+        styles: {
+          branding: { brandColor: '#00D4FF' },
+        },
+        hideEventTypeDetails: false,
+        layout: 'month_view',
+      })
+    })()
+  }, [])
+
+  const handleBooking = async () => {
+    const cal = await getCalApi()
+    cal('modal', {
+      calLink: 'viswa-teja-bottu-egakej/scheduled-call-for-ros-compass',
+      config: { layout: 'month_view', theme: 'dark' }
+    })
   }
 
   const containerVariants = {
@@ -95,8 +119,9 @@ function Hero() {
             className="flex flex-wrap gap-4 mt-4"
           >
             <motion.button
-              onClick={scrollToContact}
-              className="group flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-cyber-blue to-robotic-teal text-obsidian font-semibold rounded-lg transition-all hover:shadow-lg hover:shadow-cyber-blue/25"
+              type="button"
+              onClick={handleBooking}
+              className="group flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-cyber-blue to-robotic-teal text-obsidian font-semibold rounded-lg transition-all hover:shadow-lg hover:shadow-cyber-blue/25 cursor-pointer relative z-20"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >

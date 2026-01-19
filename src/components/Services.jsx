@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Box, Code, Navigation, MessageSquare, X, ArrowRight, ChevronDown } from 'lucide-react'
+import { getCalApi } from '@calcom/embed-react'
 
 // Helper to get correct asset URL with base path
 const getAssetUrl = (path) => `${import.meta.env.BASE_URL}${path.startsWith('/') ? path.slice(1) : path}`
@@ -127,6 +128,14 @@ const servicesData = [
 function ServiceCard({ service, index, isExpanded, onToggle, onClose, cardRef }) {
   const Icon = service.icon
 
+  const handleBooking = async () => {
+    const cal = await getCalApi()
+    cal('modal', {
+      calLink: 'viswa-teja-bottu-egakej/scheduled-call-for-ros-compass',
+      config: { layout: 'month_view', theme: 'dark' }
+    })
+  }
+
   const scrollToContact = () => {
     onClose()
     setTimeout(() => {
@@ -209,8 +218,6 @@ function ServiceCard({ service, index, isExpanded, onToggle, onClose, cardRef })
           </div>
         </div>
       </div>
-
-      {/* Expanded Content - INSIDE the same card container */}
       <AnimatePresence>
         {isExpanded && (
           <motion.div
@@ -254,14 +261,12 @@ function ServiceCard({ service, index, isExpanded, onToggle, onClose, cardRef })
 
                 {/* Right Column - Image */}
                 <div className="flex items-center justify-center">
-                  <div className="relative w-full h-full min-h-[300px] rounded-2xl overflow-hidden border border-white/10">
+                  <div className="relative w-full h-full min-h-[400px] rounded-2xl overflow-hidden border border-white/10 bg-obsidian/40 flex items-center justify-center p-2">
                     <img
                       src={getAssetUrl(service.image)}
                       alt={service.title}
-                      className="w-full h-full object-cover"
+                      className="max-w-full max-h-full object-contain shadow-2xl"
                     />
-                    {/* Gradient overlay for better blending */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-obsidian/50 to-transparent" />
                   </div>
                 </div>
               </div>
@@ -269,15 +274,19 @@ function ServiceCard({ service, index, isExpanded, onToggle, onClose, cardRef })
               {/* CTA Footer */}
               <div className="mt-8 pt-6 border-t border-white/10 flex justify-center">
                 <motion.button
-                  onClick={scrollToContact}
-                  className="flex flex-col items-center gap-3 px-10 py-5 bg-gradient-to-r from-cyber-blue to-robotic-teal text-obsidian font-semibold rounded-xl"
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    handleBooking()
+                  }}
+                  className="flex flex-col items-center gap-3 px-10 py-6 bg-gradient-to-r from-cyber-blue to-robotic-teal text-obsidian font-bold rounded-xl cursor-pointer relative z-20 hover:shadow-lg hover:shadow-cyber-blue/20 transition-all"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
-                  <span className="text-lg">🚀 {service.expandedContent.hookText}</span>
-                  <span className="flex items-center gap-2 font-bold text-xl">
+                  <span className="text-lg opacity-90">🚀 {service.expandedContent.hookText}</span>
+                  <span className="flex items-center gap-2 text-2xl">
                     {service.expandedContent.ctaText}
-                    <ArrowRight size={22} />
+                    <ArrowRight size={26} />
                   </span>
                 </motion.button>
               </div>
@@ -285,12 +294,26 @@ function ServiceCard({ service, index, isExpanded, onToggle, onClose, cardRef })
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.div>
+    </motion.div >
   )
 }
 
 // Main Services Component
 function Services() {
+  useEffect(() => {
+    ; (async function () {
+      const cal = await getCalApi()
+      cal('ui', {
+        theme: 'dark',
+        styles: {
+          branding: { brandColor: '#00D4FF' },
+        },
+        hideEventTypeDetails: false,
+        layout: 'month_view',
+      })
+    })()
+  }, [])
+
   const [expandedIndex, setExpandedIndex] = useState(null)
   const [previousExpandedIndex, setPreviousExpandedIndex] = useState(null)
   const servicesGridRef = useRef(null)

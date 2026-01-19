@@ -261,11 +261,11 @@ function ServiceCard({ service, index, isExpanded, onToggle, onClose, cardRef })
 
                 {/* Right Column - Image */}
                 <div className="flex items-center justify-center">
-                  <div className="relative w-full h-full min-h-[400px] rounded-2xl overflow-hidden border border-white/10 bg-obsidian/40 flex items-center justify-center p-2">
+                  <div className="relative w-full h-full min-h-[400px] rounded-2xl overflow-hidden flex items-center justify-center">
                     <img
                       src={getAssetUrl(service.image)}
                       alt={service.title}
-                      className="max-w-full max-h-full object-contain shadow-2xl"
+                      className="max-w-full max-h-full object-contain"
                     />
                   </div>
                 </div>

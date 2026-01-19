@@ -11,6 +11,7 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
+    "@calcom/embed-react": "^1.5.3",
     "@emailjs/browser": "^4.4.1",
     "framer-motion": "^10.16.16",
     "lucide-react": "^0.294.0",

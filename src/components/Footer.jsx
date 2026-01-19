@@ -15,7 +15,7 @@ const socialLinks = [
   { icon: Github, href: 'https://github.com', label: 'GitHub' },
   { icon: Linkedin, href: 'https://linkedin.com', label: 'LinkedIn' },
   { icon: Twitter, href: 'https://twitter.com', label: 'Twitter' },
-  { icon: Mail, href: 'mailto:hello@roscompass.dev', label: 'Email' },
+  { icon: Mail, href: 'mailto:ros.compass@gmail.com', label: 'Email' },
 ]
 
 function Footer() {
@@ -94,8 +94,8 @@ function Footer() {
               ))}
             </div>
             <p className="text-soft-gray text-sm">
-              <a href="mailto:hello@roscompass.dev" className="hover:text-cyber-blue transition-colors">
-                hello@roscompass.dev
+              <a href="mailto:ros.compass@gmail.com" className="hover:text-cyber-blue transition-colors">
+                ros.compass@gmail.com
               </a>
             </p>
           </div>

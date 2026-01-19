@@ -1,13 +1,15 @@
 import { motion } from 'framer-motion'
 import { Mail, MapPin, Clock, Linkedin, Github, Twitter } from 'lucide-react'
+import { useEffect } from 'react'
+import { getCalApi } from '@calcom/embed-react'
 import ContactForm from './ContactForm'
 
 const contactInfo = [
   {
     icon: Mail,
     label: 'Email',
-    value: 'hello@roscompass.dev',
-    href: 'mailto:hello@roscompass.dev',
+    value: 'ros.compass@gmail.com',
+    href: 'mailto:ros.compass@gmail.com',
   },
   {
     icon: MapPin,
@@ -30,6 +32,20 @@ const socialLinks = [
 ]
 
 function Contact() {
+  useEffect(() => {
+    ; (async function () {
+      const cal = await getCalApi({ namespace: 'technical-call' })
+      cal('ui', {
+        theme: 'dark',
+        styles: {
+          branding: { brandColor: '#00D4FF' },
+        },
+        hideEventTypeDetails: false,
+        layout: 'month_view',
+      })
+    })()
+  }, [])
+
   return (
     <section id="contact" className="py-24 relative overflow-hidden">
       {/* Background Elements */}
@@ -138,13 +154,15 @@ function Contact() {
                 Schedule a 30-minute technical discovery call to discuss your project
                 requirements and explore how we can work together.
               </p>
-              <motion.a
-                href="#"
+              <motion.button
+                data-cal-namespace="technical-call"
+                data-cal-link="viswa-teja-bottu-egakej/scheduled-call-for-ros-compass"
+                data-cal-config='{"layout":"month_view","theme":"dark"}'
                 className="inline-flex items-center gap-2 text-cyber-blue font-medium text-sm hover:underline"
                 whileHover={{ x: 3 }}
               >
                 Schedule a Call →
-              </motion.a>
+              </motion.button>
             </motion.div>
           </motion.div>
 

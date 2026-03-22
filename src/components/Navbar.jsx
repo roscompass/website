@@ -98,13 +98,13 @@ function Navbar({ activeSection }) {
         </motion.button>
 
         {/* Mobile Menu Button */}
-        <motion.button
-          className="md:hidden text-white p-2"
+        <button
+          type="button"
+          className="md:hidden text-white p-2 active:scale-90 transition-transform"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          whileTap={{ scale: 0.9 }}
         >
           {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </motion.button>
+        </button>
       </div>
 
       {/* Mobile Menu */}
@@ -119,27 +119,27 @@ function Navbar({ activeSection }) {
           >
             <div className="py-4 px-6 flex flex-col gap-4">
               {navItems.map((item) => (
-                <motion.button
+                <button
                   key={item.id}
+                  type="button"
                   onClick={() => scrollToSection(item.id)}
-                  className={`text-left py-2 text-lg font-medium transition-colors ${activeSection === item.id
+                  className={`text-left py-2 text-lg font-medium transition-all active:scale-95 ${activeSection === item.id
                     ? 'text-cyber-blue'
                     : 'text-soft-gray'
                     }`}
-                  whileTap={{ scale: 0.95 }}
                 >
                   {item.label}
-                </motion.button>
+                </button>
               ))}
-              <motion.button
+              <button
+                type="button"
                 onClick={() => scrollToSection('contact')}
-                className="mt-2 btn-gradient w-full"
-                whileTap={{ scale: 0.95 }}
+                className="mt-2 btn-gradient w-full transition-transform active:scale-95"
               >
                 <span className="btn-gradient-inner block text-center text-sm font-semibold">
                   Let's Talk
                 </span>
-              </motion.button>
+              </button>
             </div>
           </motion.div>
         )}

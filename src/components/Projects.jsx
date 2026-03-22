@@ -5,27 +5,27 @@ import { getCalApi } from '@calcom/embed-react'
 
 const projects = [
   {
-    name: 'Autonomous Mobile Robot Navigation Stack',
-    summary: 'Full Nav2 implementation for warehouse logistics robot with dynamic obstacle avoidance.',
+    name: 'Visual-Inertial Autonomous Navigation Stack',
+    summary: 'High-precision indoor navigation utilizing VINS-Fusion SLAM and EKF sensor fusion, deployed via containerized architecture.',
     problem:
-      'A logistics company needed an autonomous mobile robot capable of navigating complex warehouse environments with dynamic obstacles, tight spaces, and varying floor conditions.',
+      'Reliable indoor navigation often fails due to wheel odometry drift on varying surfaces and the lack of GPS. Standard LiDAR-only SLAM can struggle in feature-poor corridors, requiring a more robust, multi-modal localization approach.',
     solution:
-      'Developed a complete navigation stack using ROS 2 Humble and Nav2, featuring custom local planners, behavior trees for task management, and sensor fusion combining 2D LiDAR with depth cameras for robust obstacle detection.',
-    impact: 'Achieved 95% navigation success rate with 40% reduction in delivery time compared to manual operations.',
-    techStack: ['ROS 2 Humble', 'Nav2', 'Python', 'C++', 'Behavior Trees', 'Gazebo'],
-    githubUrl: '#',
+      'Engineered a comprehensive navigation pipeline using ROS 2 and the Webots simulation environment. Implemented a Visual SLAM module using VINS-Fusion, containerized within Docker to ensure isolated, repeatable execution of complex dependencies. Integrated an Extended Kalman Filter (EKF) to fuse Visual-Inertial Odometry (VIO) with wheel encoders, providing high-frequency, drift-compensated state estimation for the Nav2 stack.',
+    impact: 'Achieved sub-centimeter localization accuracy in GPS-denied environments and reduced cumulative odometry drift by 65% compared to traditional dead-reckoning methods.',
+    techStack: ['ROS 2', 'Nav2', 'Webots', 'VINS-Fusion', 'Docker', 'Extended Kalman Filter (EKF)', 'Visual SLAM', 'C++'],
+    githubUrl: 'https://github.com/roscompass/mb_description',
     demoUrl: null,
   },
   {
-    name: 'Multi-Robot SLAM System',
-    summary: 'Distributed mapping solution for fleet of inspection robots using graph-based SLAM.',
+    name: 'Swarm-Based Autonomous Construction Stack',
+    summary: 'Hierarchical multi-agent architecture for natural language-driven robotic swarm coordination.',
     problem:
-      'An inspection company required multiple robots to collaboratively map large industrial facilities while maintaining consistent global maps across all agents.',
+      'Developing a system where non-expert users can command a diverse robot swarm using natural language to perform complex, multi-step construction tasks like pick-and-place and material handling in dynamic environments.',
     solution:
-      'Implemented a distributed SLAM system using Cartographer with custom inter-robot communication nodes for map merging, loop closure detection across robot observations, and centralized map optimization.',
-    impact: 'Enabled 5 robots to map a 50,000 sq ft facility in under 2 hours with centimeter-level accuracy.',
-    techStack: ['ROS 2 Galactic', 'Cartographer', 'C++', 'DDS', 'Docker', 'PostgreSQL'],
-    githubUrl: '#',
+      'Engineered a sophisticated 3-layer hierarchical architecture: a Cognitive Layer using LLMs to translate human voice/text into logical action sequences; an Orchestration Layer featuring a custom multi-agent task allocator; and an Execution Layer powered by custom ROS 2 Behavior Trees integrated with Nav2 for robust multi-robot coordination and collision-free movement.',
+    impact: 'Achieved 100% accuracy in translating natural language to executable task sequences and maintained an 85% success rate for physical task implementation in high-fidelity simulations.',
+    techStack: ['ROS 2 Humble', 'Nav2', 'LLMs (GPT 5.2)', 'Behavior Trees', 'Task Allocation Algorithms', 'Multi-Agent Systems', 'Gazebo'],
+    githubUrl: 'https://github.com/roscompass/mobman_bringup',
     demoUrl: null,
   },
   {
@@ -36,8 +36,8 @@ const projects = [
     solution:
       'Built a complete manipulation pipeline using MoveIt2 with custom grasp planners, integrated RGB-D perception for object detection and pose estimation, and collision-aware motion planning.',
     impact: 'Reduced part handling time by 60% and achieved 99.2% pick success rate on previously unseen objects.',
-    techStack: ['ROS 2 Humble', 'MoveIt2', 'OpenCV', 'PyTorch', 'C++', 'Isaac Sim'],
-    githubUrl: '#',
+    techStack: ['ROS 2 Humble', 'MoveIt2', 'OpenCV', 'Gazebo Sim'],
+    githubUrl: 'https://github.com/vss-viswateja/mobman_moveit_config/',
     demoUrl: null,
   },
 ]
@@ -276,7 +276,7 @@ function Projects() {
           className="flex flex-col items-center gap-4 mt-12"
         >
           <motion.a
-            href="https://github.com"
+            href="https://github.com/vss-viswateja"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-6 py-3 glass-card text-soft-gray hover:text-cyber-blue hover:border-cyber-blue/30 transition-all rounded-lg font-medium"

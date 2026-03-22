@@ -15,7 +15,7 @@ function About() {
     <section id="about" className="py-24 relative overflow-hidden">
       {/* Background Elements */}
       <div className="absolute top-1/2 left-0 w-96 h-96 bg-cyber-blue/5 rounded-full blur-[120px] -translate-y-1/2 pointer-events-none" />
-      
+
       <div className="max-w-6xl mx-auto px-6 relative z-10">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Left - Image/Visual */}
@@ -31,27 +31,15 @@ function About() {
               {/* Background Decoration */}
               <div className="absolute inset-4 rounded-2xl border border-cyber-blue/20 -rotate-6" />
               <div className="absolute inset-4 rounded-2xl border border-robotic-teal/20 rotate-3" />
-              
+
               {/* Main Image Container */}
-              <div className="relative rounded-2xl overflow-hidden glass-card aspect-square flex items-center justify-center">
-                {/* Placeholder Content */}
-                <div className="text-center p-8">
-                  <motion.div
-                    className="w-32 h-32 rounded-full bg-gradient-to-br from-cyber-blue/30 to-robotic-teal/30 mx-auto mb-6 flex items-center justify-center"
-                    animate={{ 
-                      boxShadow: [
-                        '0 0 0 0 rgba(0, 212, 255, 0.4)',
-                        '0 0 0 20px rgba(0, 212, 255, 0)',
-                      ]
-                    }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                  >
-                    <span className="text-5xl">🤖</span>
-                  </motion.div>
-                  <p className="text-soft-gray text-sm">
-                    [ Your headshot here ]
-                  </p>
-                </div>
+              <div className="relative rounded-2xl overflow-hidden glass-card aspect-square">
+                <img
+                  src={`${import.meta.env.BASE_URL}headshot.png`}
+                  alt="Viswa Teja - ROS 2 Engineer"
+                  className="w-full h-full object-cover object-top"
+                  style={{ filter: 'drop-shadow(0 0 24px rgba(0, 212, 255, 0.15))' }}
+                />
               </div>
 
               {/* Floating Badge */}
@@ -89,16 +77,16 @@ function About() {
 
             <div className="space-y-4 text-soft-gray leading-relaxed">
               <p>
-                I believe robotics is <span className="text-white font-medium">10% hardware and 90% reliable middleware</span>. 
+                I believe robotics is <span className="text-white font-medium">10% hardware and 90% reliable middleware</span>.
                 My goal is to build ROS architectures that are as stable in the field as they are in simulation.
               </p>
               <p>
-                With years of experience in production robotics systems, I've learned that the difference 
-                between a demo and a deployed solution comes down to robust architecture, thorough testing, 
+                With years of experience in production robotics systems, I've learned that the difference
+                between a demo and a deployed solution comes down to robust architecture, thorough testing,
                 and maintainable code.
               </p>
               <p>
-                Whether you're building your first robot or scaling a fleet, I'm here to help you 
+                Whether you're building your first robot or scaling a fleet, I'm here to help you
                 navigate the complexities of ROS 2 development and get your project from prototype to production.
               </p>
             </div>
@@ -128,30 +116,6 @@ function About() {
               </div>
             </div>
 
-            {/* Stats */}
-            <div className="grid grid-cols-3 gap-6 pt-4">
-              {[
-                { number: '5+', label: 'Years Experience' },
-                { number: '20+', label: 'Projects Delivered' },
-                { number: '99%', label: 'Client Satisfaction' },
-              ].map((stat, index) => (
-                <motion.div
-                  key={stat.label}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: index * 0.1 }}
-                  className="text-center"
-                >
-                  <div className="text-2xl sm:text-3xl font-bold gradient-text">
-                    {stat.number}
-                  </div>
-                  <div className="text-xs sm:text-sm text-soft-gray mt-1">
-                    {stat.label}
-                  </div>
-                </motion.div>
-              ))}
-            </div>
           </motion.div>
         </div>
       </div>
